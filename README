@@ -1,0 +1,7 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=935
+
+File for Scalable Vector Graphics syntax highlighting
+
+This script highlights SVG 1.0 and 1.1 syntax as described at http://www.w3.org/TR/SVG/
+SVG is an XML application, so svg.vim needs XML syntax file to work properly.
+
