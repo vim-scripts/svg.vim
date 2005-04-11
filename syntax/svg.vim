@@ -3,7 +3,7 @@
 " Filenames:	*.svg
 " Maintainer:	Michal Gorny <michal-gorny@wp.pl>
 " URL:		http://mig.webpark.pl/vim/svg.vim
-" Last_change:	2005 Mar 10
+" Last_change:	2005 Apr 11
 
 if !exists("main_syntax")
   if exists("b:current_syntax")
@@ -12,13 +12,17 @@ if !exists("main_syntax")
   let main_syntax = 'svg'
 endif
 
-" Load XML syntax file
-runtime! syntax/xml.vim
+if main_syntax == 'svg'
+  runtime! syntax/xml.vim
+  syn cluster xmlTagHook add=svgElement
+  syn cluster xmlAttribHook add=svgAttr
+  syn keyword xmlDeclAttr version encoding standalone containedin=xmlProcessing
+else
+  syn cluster xhtmlTagHook add=svgElement
+  syn cluster xhtmlAttribHook add=svgAttr
+endif
 
 syn case match
-
-syn cluster xmlTagHook add=svgElement
-syn cluster xmlAttribHook add=svgAttr
 
 " SVG elements
 syn match   svgElement contained /\<svg\>[^:]/me=e-1
@@ -82,9 +86,6 @@ endif
 " Attribute new in SVG 1.1
 syn keyword svgAttr contained baseProfile
 
-" XML declaration attributes
-syn keyword xmlDeclAttr version encoding standalone containedin=xmlProcessing
-
 " Embedded ECMAScript (JavaScript)
 if main_syntax == 'svg'
   syn include @svgJavaScript syntax/javascript.vim
@@ -113,12 +114,14 @@ endif
 " Highlighting
 hi link     xmlAttrib		Function
 hi def link xmlDeclAttr 	Type
+hi link     xmlEntity		Special
+hi link     xmlEntityPunct	Special
 hi def link svgElement		Statement
 hi def link svgAttr		Type
 hi def link javaScript		Special
 hi def link svgEvent		javaScript
 hi def link svgEventAttr	Type
-if !exists("xhtml_no_rendering")
+if !exists("svg_no_rendering")
   hi def link svgTitle		Title
   hi def link svgDesc		Title
 endif
