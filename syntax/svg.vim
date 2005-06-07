@@ -3,7 +3,7 @@
 " Filenames:	*.svg
 " Maintainer:	Michal Gorny <michal-gorny@wp.pl>
 " URL:		http://mig.webpark.pl/vim/svg.vim
-" Last_change:	2005 Apr 11
+" Last_change:	2005 Jun 08
 
 if !exists("main_syntax")
   if exists("b:current_syntax")
@@ -16,7 +16,7 @@ if main_syntax == 'svg'
   runtime! syntax/xml.vim
   syn cluster xmlTagHook add=svgElement
   syn cluster xmlAttribHook add=svgAttr
-  syn keyword xmlDeclAttr version encoding standalone containedin=xmlProcessing
+  syn keyword xmlDeclAttr version encoding standalone containedin=xmlProcessing contained
 else
   syn cluster xhtmlTagHook add=svgElement
   syn cluster xhtmlAttribHook add=svgAttr
