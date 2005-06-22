@@ -3,7 +3,7 @@
 " Filenames:	*.svg
 " Maintainer:	Michal Gorny <michal-gorny@wp.pl>
 " URL:		http://mig.webpark.pl/vim/svg.vim
-" Last_change:	2005 Jun 08
+" Last_change:	2005 Jun 22
 
 if !exists("main_syntax")
   if exists("b:current_syntax")
@@ -80,7 +80,11 @@ syn match svgAttr contained /\<\(xmlns:\)\@<=xlink\>/
 " Events attributes
 if exists("svg_no_events_rendering")
   syn match svgEventAttr contained /\<on\(abort\|activate\|begin\|click\|end\|error\|focus\(in\|out\)\|\(un\)\?load\|mouse\(down\|move\|out\|over\|up\)\|repeat\|resize\|scroll\|zoom\)\>/
-  syn cluster xmlAttribHook add=svgEventAttr
+  if main_syntax == 'svg'
+    syn cluster xmlAttribHook add=svgEventAttr
+  else
+    syn cluster xhtmlAttribHook add=svgEventAttr
+  endif
 endif
 
 " Attribute new in SVG 1.1
@@ -96,9 +100,13 @@ endif
  
 " Events attributes rendering
 if !exists("svg_no_events_rendering")
-  syn cluster xmlAttribHook add=svgEvent
   syn region svgEvent contained start=+\<on\(abort\|activate\|begin\|click\|end\|error\|focus\(in\|out\)\|\(un\)\?load\|mouse\(down\|move\|out\|over\|up\)\|repeat\|resize\|scroll\|zoom\)\s*=\s*'+ keepend end=+'+ contains=svgEventSQ
   syn region svgEvent contained start=+\<on\(abort\|activate\|begin\|click\|end\|error\|focus\(in\|out\)\|\(un\)\?load\|mouse\(down\|move\|out\|over\|up\)\|repeat\|resize\|scroll\|zoom\)\s*=\s*"+ keepend end=+"+ contains=svgEventDQ
+  if main_syntax == 'svg'
+    syn cluster xmlAttribHook add=svgEvent
+  else
+    syn cluster xhtmlAttribHook add=svgEvent
+  endif
   syn region svgEventSQ contained start=+'+ms=s+1 end=+'+me=s-1 contains=@svgJavaScript,@xhtmlJavaScript
   syn region svgEventDQ contained start=+"+ms=s+1 end=+"+me=s-1 contains=@svgJavaScript,@xhtmlJavaScript
   hi def link svgEventSQ svgEvent
