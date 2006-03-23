@@ -2,8 +2,7 @@
 " Language:	SVG
 " Filenames:	*.svg
 " Maintainer:	Michal Gorny <michal-gorny@wp.pl>
-" URL:		http://mig.webpark.pl/vim/svg.vim
-" Last_change:	2005 Jun 22
+" Last_change:	2006-03-23
 
 if !exists("main_syntax")
   if exists("b:current_syntax")
@@ -16,7 +15,9 @@ if main_syntax == 'svg'
   runtime! syntax/xml.vim
   syn cluster xmlTagHook add=svgElement
   syn cluster xmlAttribHook add=svgAttr
+  syn match xmlDecl /\<\(<?\)\@<=xml\(-stylesheet\)\?\>/ containedin=xmlProcessing contained
   syn keyword xmlDeclAttr version encoding standalone containedin=xmlProcessing contained
+  syn keyword xmlDeclAttr alternate charset media href title type containedin=xmlProcessing contained
 else
   syn cluster xhtmlTagHook add=svgElement
   syn cluster xhtmlAttribHook add=svgAttr
@@ -121,6 +122,7 @@ endif
 
 " Highlighting
 hi link     xmlAttrib		Function
+hi def link xmlDecl		Statement
 hi def link xmlDeclAttr 	Type
 hi link     xmlEntity		Special
 hi link     xmlEntityPunct	Special
@@ -140,4 +142,4 @@ if main_syntax == 'svg'
   unlet main_syntax
 endif
 
-" vim:ts=8
+" vim: ts=8
